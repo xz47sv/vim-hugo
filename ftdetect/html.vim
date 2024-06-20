@@ -1,13 +1,11 @@
-function! s:DetectGoTemplate()
+function! s:DetectGoTemplate() abort
   if findfile('.hugo_build.lock', '.;') !=# ''
-    set ft=htmlhugo
-  elseif search('\C\m{{-\?\s*end\s*-\?}}')
-    set ft=htmlhugo
-  elseif search('\m{{-\?\s*$\k\+\s*:=')
-    set ft=htmlhugo
-  elseif search('\C\m{{-\?\s*\.[A-Z]\?')
-    set ft=htmlhugo
+    \|| search('\C\m{{-\?\s*end\s*-\?}}')
+    \|| search('\m{{-\?\s*$\k\+\s*:=')
+    \|| search('\C\m{{-\?\s*\.[A-Z]\?')
+
+    set filetype=htmlhugo
   endif
 endfunction
 
-au BufRead,BufNewFile *.html call <SID>DetectGoTemplate()
+au BufRead,BufNewFile *.html call s:DetectGoTemplate()
